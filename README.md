@@ -11,7 +11,7 @@ Pymegle can be installed from PyPi using the following command:
 pip install pymegle
 ```
 
-# Staring Out
+# Starting Out
 
 The simplest usage of this package is interacting with the user client. It can be run using the following code:
 ```python
