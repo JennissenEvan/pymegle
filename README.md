@@ -1,8 +1,10 @@
 # Pymegle
 
-Pymegle is an unofficial API for [Omegle's](https://www.omegle.com/) text chat using asyncio. It provides an interface for connecting to text chats and asynchronous event handling. This package also comes bundled with a full-featured user client that can be run in the console.
+Pymegle is an unofficial API for [Omegle's](https://www.omegle.com/) text chat using asyncio. It provides an interface 
+for connecting to text chats and asynchronous event handling. This package also comes bundled with a full-featured user client that can be run in the console.
 
-DISCLAIMER: This software is not intended to be used for spam or other disruptive/malicious activities. Please abide by Omegle's terms of service.
+DISCLAIMER: This software is not intended to be used for spam or other disruptive/malicious activities. Please abide by 
+Omegle's terms of service.
 
 # Installation
 
@@ -13,7 +15,10 @@ pip install pymegle
 
 # Starting Out
 
-The simplest usage of this package is interacting with the user client. It can be run using the following code:
+The simplest usage of this package is interacting with the user client. It can be run using the following code.
+
+**NOTE:** Many consoles were not designed with asynchronous operation in mind and as a result may experience issues 
+when running the interactive client. PyCharm's _Python Console_ and the Windows command prompt tend to perform the best.
 ```python
 import pymegle
 
@@ -23,7 +28,8 @@ The user client recreates the Omegle browser experience in the console, showcasi
 
 # Basic Usage
 
-The `OmegleChat` class is the basic handler for text chat interactions. It represents a single chat between the client (user) and a partner. It can be inherited to handle various events, such as receiving messages.
+The `OmegleChat` class is the basic handler for text chat interactions. It represents a single chat between the client 
+(user) and a partner. It can be inherited to handle various events, such as receiving messages.
 
 For this example, we will make a simple dice roller that responds to a command given by the partner and sends a result.
 
