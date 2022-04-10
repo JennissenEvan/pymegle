@@ -39,12 +39,12 @@ class DiceRoller(pymegle.OmegleChat):
     self.interests.add("diceroller")
    
   # This coroutine is called when the client successfully connects to a partner
-  async def on_connected(i):
+  async def on_connected(self, i):
     # Send a greeting message
     await self.send_message("Hello! Type /roll and I will roll a 6 sided die for you")
   
   # This coroutine is called when the partner sends a message
-  async def on_message(m):
+  async def on_message(self, m):
     # Check if the message matches the specified command
     if m == "/roll":
       await self.send_message("🎲 Rolling...")
