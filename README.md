@@ -64,3 +64,16 @@ chat.start()
 ```
 
 Then, connect to Omegle with `diceroller` in the interests to test it.
+
+The chat class can be wrapped in an `OmegleClient` to provide more functionality, namely the ability to automatically 
+begin a new chat when the current one is finished.
+```python
+class MyClient(pymegle.OmegleClient):
+  # This is called when a chat ends
+  def on_chat_end(self, log):
+    # Returning True tells the client to start a new chat
+    return True
+
+client = MyClient(DiceRoller)
+client.start()
+```
