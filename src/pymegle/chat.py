@@ -6,7 +6,27 @@ import json
 from . import core, log, exceptions
 
 
-class OmegleChat:
+class OmegleObject:
+    def __init__(self, **kwargs):
+        self.http_client = kwargs.get("http_client", None)
+        self._cleanup_client = self.http_client is None
+
+        self.interests = set(kwargs.get("interests", ()))
+
+        self.server = kwargs.get("server", None)
+
+        self.lang = kwargs.get("lang", "en")
+
+        self.wpm = kwargs.get("wpm", 40)
+
+        self.randid = kwargs.get("randid", core.generate_randid())
+
+        self.detect_bots = kwargs.get("detect_bots", False)
+
+        self.inactivity_timeout = kwargs.get("inactivity_timeout", None)
+
+
+class OmegleChat(OmegleObject):
     def __init__(self, **kwargs):
         self.started = False
         self.connected = False
@@ -22,48 +42,8 @@ class OmegleChat:
         self.__partner_has_typed = False
         self.__inactivity_timer = None
         self.__partner_last_comm = True
-
-        if "http_client" in kwargs:
-            self.http_client = kwargs["http_client"]
-            self.__cleanup_client = False
-        else:
-            self.http_client = None
-            self.__cleanup_client = True
-
-        if "interests" in kwargs:
-            self.interests = set(kwargs["interests"])
-        else:
-            self.interests = set()
-
-        if "server" in kwargs:
-            self.server = kwargs["server"]
-        else:
-            self.server = None
-
-        if "lang" in kwargs:
-            self.lang = kwargs["lang"]
-        else:
-            self.lang = "en"
-
-        if "wpm" in kwargs:
-            self.wpm = kwargs["wpm"]
-        else:
-            self.wpm = 40
-
-        if "randid" in kwargs:
-            self.randid = kwargs["randid"]
-        else:
-            self.randid = core.generate_randid()
-
-        if "detect_bots" in kwargs:
-            self.detect_bots = kwargs["detect_bots"]
-        else:
-            self.detect_bots = False
-
-        if "inactivity_timeout" in kwargs:
-            self.inactivity_timeout = kwargs["inactivity_timeout"]
-        else:
-            self.inactivity_timeout = None
+        
+        super().__init__(**kwargs)
 
     def __add_event_task(self, task: asyncio.Task):
         self.__event_tasks.append(task)
@@ -174,7 +154,7 @@ class OmegleChat:
             task.cancel()
         self.log.log_entry(log.LogEnded())
         self.on_end()
-        if self.__cleanup_client:
+        if self._cleanup_client:
             await self.http_client.close()
 
     async def _master_on_connected(self, i=None):
@@ -331,7 +311,7 @@ class OmegleChat:
             self.__inactivity_timer.cancel()
 
 
-class OmegleClient:
+class OmegleClient(OmegleObject):
     def __init__(self, chat_handler, **kwargs):
         self.chats = 0
 
@@ -341,47 +321,7 @@ class OmegleClient:
 
         self.halted = False
 
-        if "http_client" in kwargs:
-            self.http_client = kwargs["http_client"]
-            self.__cleanup_client = False
-        else:
-            self.http_client = None
-            self.__cleanup_client = True
-
-        if "interests" in kwargs:
-            self.interests = set(kwargs["interests"])
-        else:
-            self.interests = set()
-
-        if "server" in kwargs:
-            self.server = kwargs["server"]
-        else:
-            self.server = None
-
-        if "lang" in kwargs:
-            self.lang = kwargs["lang"]
-        else:
-            self.lang = "en"
-
-        if "wpm" in kwargs:
-            self.wpm = kwargs["wpm"]
-        else:
-            self.wpm = 40
-
-        if "randid" in kwargs:
-            self.randid = kwargs["randid"]
-        else:
-            self.randid = core.generate_randid()
-
-        if "detect_bots" in kwargs:
-            self.detect_bots = kwargs["detect_bots"]
-        else:
-            self.detect_bots = False
-
-        if "inactivity_timeout" in kwargs:
-            self.inactivity_timeout = kwargs["inactivity_timeout"]
-        else:
-            self.inactivity_timeout = None
+        super().__init__()
 
     def on_new_chat(self):
         return True
@@ -430,7 +370,7 @@ class OmegleClient:
             if (not self.on_chat_end(self.active_handler.log)) or self.halted:
                 break
 
-        if self.__cleanup_client:
+        if self._cleanup_client:
             await self.http_client.close()
             self.http_client = None
 
