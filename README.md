@@ -22,7 +22,7 @@ when running the interactive client. PyCharm's _Python Console_ and the Windows 
 ```python
 import pymegle
 
-pymegle.run_user_clent()
+pymegle.run_user_client()
 ```
 The user client recreates the Omegle browser experience in the console, showcasing what can be done with this API.
 
