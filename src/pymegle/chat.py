@@ -84,7 +84,7 @@ class OmegleChat(OmegleObject):
         connect_params = {
             "lang": self.lang,
             "firstevents": "1",
-            "caps": "recaptcha2,t",
+            "caps": "recaptcha2,t2",
             "spid": "",
             "randid": self.randid
         }

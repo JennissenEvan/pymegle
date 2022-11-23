@@ -151,7 +151,7 @@ class UserClient(OmegleClient):
         return True
 
     def on_chat_end(self, log):
-        return input("Start new chat? (Y/n): ").lower() == "y"
+        return (input("Start new chat? (Y/n): ").lower() or "y") == "y"
 
 
 def run_user_client(**kwrags):
